@@ -13,14 +13,20 @@ const App = () => {
   const handleAddGroceryItem = (e) => {
     if (e.key === "Enter") {
       if (inputValue) {
-        SetGroceryItems([
-          ...groceryItems,
-          {
-            quantity: 1,
+        const updatedGroceryList = [...groceryItems];
+        const itemIndex = updatedGroceryList.findIndex(
+          (item) => item.name === inputValue
+        );
+        if (itemIndex === -1) {
+          updatedGroceryList.push({
             name: inputValue,
+            quantity: 1,
             completed: false,
-          },
-        ]);
+          });
+        } else {
+          updatedGroceryList[itemIndex].quantity++;
+        }
+        SetGroceryItems(updatedGroceryList);
         setInputValue("");
       }
     }
@@ -28,7 +34,7 @@ const App = () => {
 
   const renderGroceryList = () => {
     return groceryItems.map((item) => (
-      <li>
+      <li key={item.name}>
         <div className="container">
           <input type="checkbox" />
           <p>{item.name}</p>
