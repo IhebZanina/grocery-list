@@ -32,6 +32,13 @@ const App = () => {
     }
   };
 
+  const handleRemoveItem = (name) => {
+    const updatedGroceryList = [...groceryItems].filter(
+      (item) => item.name !== name
+    );
+    SetGroceryItems(updatedGroceryList);
+  };
+
   const renderGroceryList = () => {
     return groceryItems.map((item) => (
       <li key={item.name}>
@@ -43,7 +50,12 @@ const App = () => {
           </p>
         </div>
         <div>
-          <button className="remove-button">X</button>
+          <button
+            className="remove-button"
+            onClick={() => handleRemoveItem(item.name)}
+          >
+            X
+          </button>
         </div>
       </li>
     ));
