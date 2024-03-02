@@ -3,8 +3,8 @@
   width: 100vw;
   display: flex;
   justify-content: center;
-  align-self: center;
-  background-color: purple;
+  align-items: center;
+
 }
 
 
