@@ -4,8 +4,26 @@ import groceryCart from "./assets/grocery-cart.png";
 
 const App = () => {
   const [inputValue, setInputValue] = useState("");
+  const [groceryItems, SetGroceryItems] = useState([]);
+
   const handleChangeInputValue = (e) => {
     console.log(e.target.value);
+  };
+
+  const handleAddGroceryItem = (e) => {
+    if (e.key === "Enter") {
+      if (inputValue) {
+        SetGroceryItems([
+          ...groceryItems,
+          {
+            quantity: 1,
+            name: inputValue,
+            completed: false,
+          },
+        ]);
+        setInputValue("");
+      }
+    }
   };
 
   return (
@@ -21,6 +39,7 @@ const App = () => {
               placeholder="Add an Item"
               className="item-input"
               onChange={handleChangeInputValue}
+              onKeyDown={handleAddGroceryItem}
               value={inputValue}
             />
           </div>
