@@ -1,6 +1,13 @@
+import { useState } from "react";
 import "./App.css";
 import groceryCart from "./assets/grocery-cart.png";
+
 const App = () => {
+  const [inputValue, setInputValue] = useState("");
+  const handleChangeInputValue = (e) => {
+    console.log(e.target.value);
+  };
+
   return (
     <main className="App">
       <div>
@@ -13,6 +20,8 @@ const App = () => {
               type="text"
               placeholder="Add an Item"
               className="item-input"
+              onChange={handleChangeInputValue}
+              value={inputValue}
             />
           </div>
         </div>
