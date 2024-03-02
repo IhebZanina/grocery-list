@@ -7,7 +7,7 @@ const App = () => {
   const [groceryItems, SetGroceryItems] = useState([]);
 
   const handleChangeInputValue = (e) => {
-    console.log(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const handleAddGroceryItem = (e) => {
@@ -24,6 +24,20 @@ const App = () => {
         setInputValue("");
       }
     }
+  };
+
+  const renderGroceryList = () => {
+    return groceryItems.map((item) => (
+      <li>
+        <div className="container">
+          <input type="checkbox" />
+          <p>{item.name}</p>
+        </div>
+        <div>
+          <button className="remove-button">X</button>
+        </div>
+      </li>
+    ));
   };
 
   return (
@@ -44,17 +58,7 @@ const App = () => {
             />
           </div>
         </div>
-        <ul>
-          <li>
-            <div className="container">
-              <input type="checkbox" />
-              <p>Carrots</p>
-            </div>
-            <div>
-              <button className="remove-button">X</button>
-            </div>
-          </li>
-        </ul>
+        <ul>{renderGroceryList()}</ul>
       </div>
     </main>
   );
