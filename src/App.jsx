@@ -1,13 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import groceryCart from "./assets/grocery-cart.png";
 
 const App = () => {
   const [inputValue, setInputValue] = useState("");
   const [groceryItems, SetGroceryItems] = useState([]);
+  const [isCompleted, setIsCompleted] = useState(false);
 
+  useEffect(() => {
+    determineCompletedStatus();
+  }, [groceryItems]);
   const handleChangeInputValue = (e) => {
     setInputValue(e.target.value);
+  };
+
+  const determineCompletedStatus = () => {
+    if (!groceryItems.length) {
+      return setIsCompleted(false);
+    }
+    let isAllCompleted = true;
+    groceryItems.forEach((item) => {
+      if (!item.completed) isAllCompleted = false;
+    });
+    setIsCompleted(isAllCompleted);
   };
 
   const handleAddGroceryItem = (e) => {
@@ -39,11 +54,24 @@ const App = () => {
     SetGroceryItems(updatedGroceryList);
   };
 
+  const handleUpdateCompleteStatus = (status, index) => {
+    const updatedGroceryList = [...groceryItems];
+    updatedGroceryList[index].completed = status;
+    SetGroceryItems(updatedGroceryList);
+  };
+
   const renderGroceryList = () => {
-    return groceryItems.map((item) => (
+    return groceryItems.map((item, index) => (
       <li key={item.name}>
         <div className="container">
-          <input type="checkbox" />
+          <input
+            type="checkbox"
+            onChange={(e) => {
+              handleUpdateCompleteStatus(e.target.checked, index);
+            }}
+            value={item.completed}
+            checked={item.completed}
+          />
           <p>
             {item.name}{" "}
             {item.quantity > 1 ? <span>X{item.quantity}</span> : null}
@@ -65,7 +93,7 @@ const App = () => {
     <main className="App">
       <div>
         <div>
-          <h4 className="success">You are done</h4>
+          {isCompleted && <h4 className="success">You are done</h4>}
           <div className="header">
             <h1>Shopping List</h1>
             <img src={groceryCart} alt="Shopping" />
